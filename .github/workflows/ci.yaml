@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  analyze:
+      name: Analyze
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Install Aftman
+          uses: ok-nick/setup-aftman@v0.4.2
+          with:
+            token: ${{ SECRETS.GITHUB_TOKEN }}
+
+        - name: Install Packages
+          run: sh scripts/packages.sh
+
+        - name: Analyze
+          run: sh scripts/analyze.sh
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Aftman
+        uses: ok-nick/setup-aftman@v0.4.2
+        with:
+          token: ${{ SECRETS.GITHUB_TOKEN }}
+
+      - name: Lint
+        run: |
+          selene src/
+
+  style:
+    name: Style
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Aftman
+        uses: ok-nick/setup-aftman@v0.4.2
+        with:
+          token: ${{ SECRETS.GITHUB_TOKEN }}
+
+      - name: Style
+        run: |
+          stylua src/ --check

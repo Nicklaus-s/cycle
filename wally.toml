@@ -1,0 +1,9 @@
+[package]
+name = "nicklaus/cycle"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+Fusion = "elttob/fusion@0.3.0"
+Lucide = "latte-soft/lucide-icons@0.1.2"
